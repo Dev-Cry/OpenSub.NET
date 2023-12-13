@@ -1,43 +1,20 @@
-﻿using OpenSub.NET.Enum;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
-namespace OpenSub.NET.Helper
+namespace OpenSub.NET.FileSystem
 {
-    /// <summary>
-    /// Poskytuje funkcionality pro identifikaci formátu titulkových souborů na základě jejich přípon.
-    /// </summary>
     public static class FileFormatExtension
     {
-        // Mapování přípon souborů na odpovídající formáty titulků.
-        private static readonly Dictionary<string, Format> ExtensionMap = new Dictionary<string, Format>
+        private static readonly Dictionary<string, Enum.Format> ExtensionMap = new Dictionary<string, Enum.Format>
         {
-            { ".sub", Format.SUB },
-            { ".srt", Format.SRT }
+            { ".sub", Enum.Format.SUB },
+            { ".srt", Enum.Format.SRT }
             // Místo pro přidání dalších podporovaných formátů titulků
         };
 
-        /// <summary>
-        /// Ověřuje, zda je přípona souboru platná a podporovaná.
-        /// </summary>
-        /// <param name="filePath">Cesta k titulkovému souboru.</param>
-        /// <returns>Vrací true, pokud přípona souboru je podporovaná, jinak false.</returns>
-        public static bool IsValidExtension(string filePath)
-        {
-            var extension = Path.GetExtension(filePath).ToLower();
-            return ExtensionMap.ContainsKey(extension);
-        }
-
-        /// <summary>
-        /// Získá formát titulkového souboru na základě jeho přípony.
-        /// </summary>
-        /// <param name="filePath">Cesta k titulkovému souboru.</param>
-        /// <returns>Vrací formát titulkového souboru.</returns>
-        /// <exception cref="ArgumentException">Vyvoláno, pokud je cesta k souboru prázdná nebo null.</exception>
-        /// <exception cref="NotSupportedException">Vyvoláno, pokud přípona souboru není podporována.</exception>
-        /// <exception cref="FormatException">Vyvoláno, pokud se nepodaří identifikovat formát.</exception>
-        public static Format GetFormat(string filePath)
+        public static async Task<Enum.Format> GetFormatAsync(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
             {
@@ -53,6 +30,10 @@ namespace OpenSub.NET.Helper
             {
                 var extension = Path.GetExtension(filePath).ToLower();
 
+                // Předpokládáme, že v budoucnu zde budete načítat data ze souboru
+                // Například:
+                // var fileHeader = await ReadFileHeaderAsync(filePath);
+
                 if (ExtensionMap.TryGetValue(extension, out var format))
                 {
                     return format;
@@ -62,27 +43,27 @@ namespace OpenSub.NET.Helper
                     throw new FormatException($"Nepodařilo se identifikovat formát pro příponu '{extension}'.");
                 }
             }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine($"Chyba argumentu: {ex.Message}");
-                throw;
-            }
-            catch (NotSupportedException ex)
-            {
-                Console.WriteLine($"Nepodporovaný formát: {ex.Message}");
-                throw;
-            }
-            catch (FormatException ex)
-            {
-                Console.WriteLine($"Chyba formátu: {ex.Message}");
-                throw;
-            }
             catch (Exception ex)
             {
-                Console.WriteLine($"Neznámá chyba: {ex.Message}");
+                Console.WriteLine($"Chyba při získávání formátu souboru: {ex.Message}");
                 throw;
             }
         }
+
+        public static bool IsValidExtension(string filePath)
+        {
+            var extension = Path.GetExtension(filePath).ToLower();
+            return ExtensionMap.ContainsKey(extension);
+        }
+
+        // Metoda pro asynchronní čtení hlavičky souboru (příklad)
+        // private static async Task<string> ReadFileHeaderAsync(string filePath)
+        // {
+        //     using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
+        //     {
+        //         // Logika pro čtení hlavičky souboru
+        //     }
+        // }
     }
 }
 

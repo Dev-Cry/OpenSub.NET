@@ -1,19 +1,20 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace OpenSub.NET.Helper
+namespace OpenSub.NET.FileSystem
 {
     public static class FileFormatEncoding
     {
         /// <summary>
-        /// Detekuje kódování souboru na základě jeho Byte Order Mark (BOM).
+        /// Asynchronně detekuje kódování souboru na základě jeho Byte Order Mark (BOM).
         /// Pokud BOM není nalezen, kontroluje, zda soubor může být v ASCII.
         /// </summary>
         /// <param name="filePath">Cesta k souboru pro detekci kódování.</param>
         /// <returns>Vrátí detekované kódování souboru.</returns>
         /// <exception cref="ArgumentException">Vyvoláno, pokud je cesta k souboru prázdná nebo null.</exception>
-        public static Encoding GetEncoding(string filePath)
+        public static async Task<Encoding> GetEncodingAsync(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
             {
@@ -22,10 +23,10 @@ namespace OpenSub.NET.Helper
 
             try
             {
-                using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
                 {
                     var bom = new byte[4];
-                    file.Read(bom, 0, 4); // Čte první čtyři bajty pro detekci BOM
+                    await file.ReadAsync(bom, 0, 4); // Asynchronní čtení prvních čtyř bajtů pro detekci BOM
 
                     // Detekce BOM pro různá kódování
                     if (bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf)

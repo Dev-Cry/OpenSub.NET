@@ -1,27 +1,29 @@
-﻿using System;
+﻿using OpenSub.NET.FileSystem;
+using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace OpenSub.NET.Helper
+namespace OpenSub.NET.FileSystem
 {
-    public static class FileHelper
+    public static class ReadFileAsync
     {
         /// <summary>
-        /// Načte obsah titulkového souboru jako string.
+        /// Asynchronně načte obsah titulkového souboru jako string.
         /// Nejprve detekuje kódování souboru a poté načte obsah s použitím tohoto kódování.
         /// </summary>
         /// <param name="filePath">Cesta k titulkovému souboru.</param>
-        /// <returns>Textový obsah titulkového souboru.</returns>
-        public static string ReadFile(string filePath)
+        /// <returns>Asynchronně vrátí textový obsah titulkového souboru.</returns>
+        public static async Task<string> ReadAsync(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
                 throw new ArgumentException("Cesta k souboru je prázdná nebo null.", nameof(filePath));
 
-            if (!File.Exists(filePath))
+            if (!System.IO.File.Exists(filePath))
                 throw new FileNotFoundException("Soubor nebyl nalezen.", filePath);
 
-            var encoding = FileFormatEncoding.GetEncoding(filePath);
-            return File.ReadAllText(filePath, encoding);
+            var encoding = await FileFormatEncoding.GetEncodingAsync(filePath);
+            return await System.IO.File.ReadAllTextAsync(filePath, encoding);
         }
 
         /// <summary>
@@ -29,7 +31,7 @@ namespace OpenSub.NET.Helper
         /// </summary>
         /// <param name="filePath">Cesta k titulkovému souboru.</param>
         /// <returns>True, pokud je soubor platným titulkovým souborem; jinak false.</returns>
-        public static bool IsValidSubtitleFile(string filePath)
+        public static bool IsValidFile(string filePath)
         {
             return FileFormatExtension.IsValidExtension(filePath);
         }
@@ -37,4 +39,5 @@ namespace OpenSub.NET.Helper
         // Zde můžete přidat další metody, pokud jsou potřeba, například pro načtení souboru jako pole bajtů, atd.
     }
 }
+
 
