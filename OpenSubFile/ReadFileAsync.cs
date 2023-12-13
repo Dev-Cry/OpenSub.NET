@@ -1,10 +1,9 @@
-﻿using OpenSub.NET.FileSub;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenSub.NET.FileSub
+namespace OpenSub.NET.OpenSubFile
 {
     public static class ReadFileAsync
     {
@@ -19,11 +18,11 @@ namespace OpenSub.NET.FileSub
             if (string.IsNullOrEmpty(filePath))
                 throw new ArgumentException("Cesta k souboru je prázdná nebo null.", nameof(filePath));
 
-            if (!System.IO.File.Exists(filePath))
+            if (!File.Exists(filePath))
                 throw new FileNotFoundException("Soubor nebyl nalezen.", filePath);
 
             var encoding = await FileFormatEncoding.GetEncodingAsync(filePath);
-            return await System.IO.File.ReadAllTextAsync(filePath, encoding);
+            return await File.ReadAllTextAsync(filePath, encoding);
         }
 
         /// <summary>

@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenSub.NET.File
+namespace OpenSub.NET.OpenSubFile;
+
+internal class ReadFileHeaderAsync
 {
-    internal class ReadFileHeaderAsync
-    {
-    }
 }

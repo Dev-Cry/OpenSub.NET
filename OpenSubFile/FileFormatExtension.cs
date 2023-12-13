@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace OpenSub.NET.FileSub
+namespace OpenSub.NET.OpenSubFile
 {
     public static class FileFormatExtension
     {
@@ -14,7 +14,7 @@ namespace OpenSub.NET.FileSub
             // Místo pro přidání dalších podporovaných formátů titulků
         };
 
-        public static async Task<Enum.Format> GetFormatAsync(string filePath)
+        public static Enum.Format GetFormat(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
             {
@@ -30,9 +30,7 @@ namespace OpenSub.NET.FileSub
             {
                 var extension = Path.GetExtension(filePath).ToLower();
 
-                // Předpokládáme, že v budoucnu zde budete načítat data ze souboru
-                // Například:
-                // var fileHeader = await ReadFileHeaderAsync(filePath);
+                var fileDetails = GetFileDetailsAsync(filePath).Result;
 
                 if (ExtensionMap.TryGetValue(extension, out var format))
                 {
@@ -56,14 +54,27 @@ namespace OpenSub.NET.FileSub
             return ExtensionMap.ContainsKey(extension);
         }
 
-        // Metoda pro asynchronní čtení hlavičky souboru (příklad)
-        // private static async Task<string> ReadFileHeaderAsync(string filePath)
-        // {
-        //     using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
-        //     {
-        //         // Logika pro čtení hlavičky souboru
-        //     }
-        // }
+        public static async Task<(string FileName, long FileSize)> GetFileDetailsAsync(string filePath)
+        {
+            return await Task.Run(() =>
+            {
+                if (string.IsNullOrEmpty(filePath))
+                {
+                    throw new ArgumentException("Cesta k souboru je prázdná nebo null.", nameof(filePath));
+                }
+
+                if (!File.Exists(filePath))
+                {
+                    throw new FileNotFoundException("Soubor nebyl nalezen.", filePath);
+                }
+
+                var fileInfo = new FileInfo(filePath);
+                string fileName = fileInfo.Name; // Získá název souboru
+                long fileSize = fileInfo.Length; // Získá velikost souboru v bajtech
+
+                return (fileName, fileSize);
+            });
+        }
     }
 }
 
