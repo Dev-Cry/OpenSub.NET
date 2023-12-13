@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace OpenSub.NET.FileSystem
+namespace OpenSub.NET.FileSub
 {
     public static class FileFormatExtension
     {

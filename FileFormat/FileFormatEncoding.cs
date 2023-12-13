@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenSub.NET.FileSystem
+namespace OpenSub.NET.FileSub
 {
     public static class FileFormatEncoding
     {
