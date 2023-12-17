@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OpenSub.NET.OpenSubFile
+namespace OpenSub.NET.Format
 {
     public static class FileFormatEncoding
     {
@@ -23,7 +23,7 @@ namespace OpenSub.NET.OpenSubFile
 
             try
             {
-                using (var file = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
+                using (var file = new System.IO.FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
                 {
                     var bom = new byte[4];
                     await file.ReadAsync(bom, 0, 4); // Asynchronní čtení prvních čtyř bajtů pro detekci BOM
