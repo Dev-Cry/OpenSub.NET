@@ -9,7 +9,7 @@ namespace OpenSub.NET.Format
     {
         private static readonly Dictionary<string, Enum.Format> ExtensionMap = new Dictionary<string, Enum.Format>
         {
-            { ".sub", Enum.Format.SUB },
+            { ".sub", Enum.Format.VTT },
             { ".srt", Enum.Format.SRT }
             // Místo pro přidání dalších podporovaných formátů titulků
         };

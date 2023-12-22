@@ -1,4 +1,5 @@
 ﻿using OpenSub.NET.Format;
+using OpenSub.NET.Parser;
 
 namespace OpenSub.NET.Stream
 {
@@ -25,5 +26,26 @@ namespace OpenSub.NET.Stream
         {
             return FileFormatExtension.IsValidExtension(filePath);
         }
+
+        public static async Task<List<dynamic>> ParseSubtitlesAsync(string filePath)
+        {
+            var fileContent = await ReadAsync(filePath);
+            var format = FileFormatExtension.GetFormat(filePath);
+
+            switch (format)
+            {
+                case Enum.Format.SRT:
+                    return SubRipParser.Parse(fileContent).Cast<dynamic>().ToList();
+                case Enum.Format.VTT:
+                    // V případě potřeby implementujte a použijte SUB parser
+                    break;
+                default:
+                    throw new NotSupportedException($"Formát '{format}' není podporován.");
+            }
+
+            return null;
+        }
+
+
     }
 }
