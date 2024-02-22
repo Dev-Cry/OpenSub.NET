@@ -10,6 +10,7 @@ namespace OpenSub.NET.Parser
     {
         public static List<Model.SubRip> Parse(string input)
         {
+
             var result = new List<Model.SubRip>();
             var lines = input.Split(Environment.NewLine, StringSplitOptions.None);
             var currentSubRip = default(Model.SubRip);
