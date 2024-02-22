@@ -9,7 +9,6 @@ namespace OpenSub.NET.Enum
     public enum Format
     {
         Unknown,
-        VTT,
         SRT
     }
 }

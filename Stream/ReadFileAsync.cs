@@ -36,14 +36,11 @@ namespace OpenSub.NET.Stream
             {
                 case Enum.Format.SRT:
                     return SubRipParser.Parse(fileContent).Cast<dynamic>().ToList();
-                case Enum.Format.VTT:
-                    // V případě potřeby implementujte a použijte SUB parser
-                    break;
+              
+              
                 default:
                     throw new NotSupportedException($"Formát '{format}' není podporován.");
             }
-
-            return null;
         }
 
 
