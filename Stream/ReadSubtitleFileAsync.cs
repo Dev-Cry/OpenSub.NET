@@ -3,7 +3,7 @@ using OpenSub.NET.Parser;
 
 namespace OpenSub.NET.Stream
 {
-    public static class ReadFileAsync
+    public static class ReadSubtitleFileAsync
     {
         public static async Task<string> ReadAsync(string filePath)
         {
@@ -14,7 +14,7 @@ namespace OpenSub.NET.Stream
                 throw new FileNotFoundException("Soubor nebyl nalezen.", filePath);
 
             var encoding = await FileFormatEncoding.GetEncodingAsync(filePath);
-            return await FileStream.ReadFileAsStringAsync(filePath, encoding);
+            return await SubtitleFileStreamAsync.ReadFileAsStringAsync(filePath, encoding);
         }
 
         // <summary>

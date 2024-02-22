@@ -16,14 +16,10 @@ namespace OpenSub.NET.Format
         public static Enum.Format GetFormat(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
-            {
-                throw new ArgumentException("Cesta k souboru je prázdná nebo null.", nameof(filePath));
-            }
+                throw new ArgumentException(nameof(filePath));
 
             if (!IsValidExtension(filePath))
-            {
-                throw new NotSupportedException($"Formát souboru s příponou '{Path.GetExtension(filePath)}' není podporován.");
-            }
+                throw new NotSupportedException($"Unsupported file extension: '{Path.GetExtension(filePath)}'");
 
             try
             {
