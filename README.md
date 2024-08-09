@@ -16,7 +16,7 @@ Knihovna momentálně podporuje parsování titulků ve formátu SRT, který je 
 - **ASS (Advanced SubStation Alpha)**: Podpora pro tituly ve formátu ASS.
 
 ### Automatický překlad pomocí AI
-- Plánujeme implementaci funkcí pro automatický překlad titulků pomocí pokročilých algoritmů umělé inteligence, což umožní překlad mezi několika jazyky.
+- Plánuji implementaci funkcí pro automatický překlad titulků pomocí pokročilých algoritmů umělé inteligence, což umožní překlad mezi několika jazyky.
 
 ### Cíle projektu:
 Cílem je vytvořit komplexní a snadno použitelný nástroj pro práci s titulky, který zjednoduší jejich překlad a úpravu. Chci, aby OpenSub.NET sloužila jako všestranné řešení pro vývojáře, překladatele a tvůrce obsahu, kteří potřebují efektivně lokalizovat filmové a seriálové titulky pro globální publikum.
