@@ -10,10 +10,10 @@ namespace OpenSub.NET.Format
         private static readonly Dictionary<string, Enum.Format> ExtensionMap = new()
         {
             { ".srt", Enum.Format.SRT }
-            // Místo pro přidání dalších podporovaných formátů titulků
+            // Placeholder for additional supported subtitle formats
         };
 
-        public static Enum.Format GetFormat(string filePath)
+        public static async Task<Enum.Format> GetFormatAsync(string filePath)
         {
             if (string.IsNullOrEmpty(filePath))
                 throw new ArgumentException(nameof(filePath));
@@ -24,8 +24,7 @@ namespace OpenSub.NET.Format
             try
             {
                 var extension = Path.GetExtension(filePath).ToLower();
-
-                var fileDetails = GetFileDetailsAsync(filePath).Result;
+                var fileDetails = await GetFileDetailsAsync(filePath);
 
                 if (ExtensionMap.TryGetValue(extension, out var format))
                 {
@@ -33,12 +32,12 @@ namespace OpenSub.NET.Format
                 }
                 else
                 {
-                    throw new FormatException($"Nepodařilo se identifikovat formát pro příponu '{extension}'.");
+                    throw new FormatException($"Failed to identify format for extension '{extension}'.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Chyba při získávání formátu souboru: {ex.Message}");
+                Console.WriteLine($"Error getting file format: {ex.Message}");
                 throw;
             }
         }
@@ -55,21 +54,20 @@ namespace OpenSub.NET.Format
             {
                 if (string.IsNullOrEmpty(filePath))
                 {
-                    throw new ArgumentException("Cesta k souboru je prázdná nebo null.", nameof(filePath));
+                    throw new ArgumentException("File path is empty or null.", nameof(filePath));
                 }
 
                 if (!File.Exists(filePath))
                 {
-                    throw new FileNotFoundException("Soubor nebyl nalezen.", filePath);
+                    throw new FileNotFoundException("File not found.", filePath);
                 }
 
                 var fileInfo = new FileInfo(filePath);
-                string fileName = fileInfo.Name; // Získá název souboru
-                long fileSize = fileInfo.Length; // Získá velikost souboru v bajtech
+                string fileName = fileInfo.Name; // Get file name
+                long fileSize = fileInfo.Length; // Get file size in bytes
 
                 return (fileName, fileSize);
             });
         }
     }
 }
-

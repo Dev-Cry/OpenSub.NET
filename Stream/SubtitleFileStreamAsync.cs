@@ -27,7 +27,7 @@ namespace OpenSub.NET.Stream
                     fileContent = await reader.ReadToEndAsync();
                 }
 
-                Cache.Add(cacheKey, fileContent, DateTimeOffset.Now.Add(TimeSpan.FromMinutes(5))); // Uloží do cache na 5 minut
+                Cache.Add(cacheKey, fileContent, DateTimeOffset.Now.Add(TimeSpan.FromMinutes(5))); // Cache for 5 minutes
             }
 
             return fileContent;

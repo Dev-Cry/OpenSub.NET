@@ -4,8 +4,7 @@
     {
         public OpenSub()
         {
-
+            // Constructor logic if needed
         }
-
     }
 }
